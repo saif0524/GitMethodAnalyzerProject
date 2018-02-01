@@ -2,6 +2,7 @@ package gmap.changeCollector;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -116,11 +117,22 @@ public class MethodFinder {
 
 	}
 
-	/*** Main method for testing ***/
-	public static void main(String args[]) {
+	/*** Main method for testing 
+	 * @throws IOException ***/
+	public static void main(String args[]) throws IOException {
 		MethodFinder mf = new MethodFinder();
-		mf.setLogFileName("./esxternaltestfiles/newLogFile.log"); // input your log file
-		mf.getParamChangedMethods(mf.getLogFileName());
+		
+		StringBuilder sBuilder = new StringBuilder();
+		
+		BufferedReader reader = new BufferedReader(new FileReader("./externaltestfiles/newLogFile.log"));
+		String line = "";
+		while ((line = reader.readLine()) != null) {
+			sBuilder.append(line+"\n");
+		}
+		
+		
+//		mf.setLogFileName(); // input your log file
+		mf.getParamChangedMethods(sBuilder.toString());
 	}
 
 }
