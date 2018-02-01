@@ -91,7 +91,7 @@ public class DiffAnalyzer {
 //		 String s = executeCommand("git log --oneline");
     	
     	ConsoleCommunicator communicator = new ConsoleCommunicator();
-		String gitPath = "C:/Users/saif-pc/Documents/dp-assignment-decorator-pattern/.git";
+		String gitPath = "C:\\Users\\saif-pc\\Documents\\repo\\argouml\\.git";
 		String command  ="git --git-dir " + gitPath + " log --oneline";   	
 		String shaLog = communicator.executeCommand(command);
 				
@@ -103,13 +103,9 @@ public class DiffAnalyzer {
 		List<String> shaList = new ArrayList<>();
 		shaList = diffAn.getShalist(shaLog);
 		
-		
-		String path = "C:/Users/saif-pc/Documents/dp-assignment-decorator-pattern/.git";
-		List<String> chFullList = diffAn.getCommitHistoryFullList(path, shaList);
+		List<String> chFullList = diffAn.getCommitHistoryFullList(gitPath, shaList);
 		
 		MethodFinder mf = new MethodFinder();
-		mf.setLogFileName("./esxternaltestfiles/newLogFile.log"); // input your log file
-		
 		for(String commitInfo: chFullList) {
 			mf.getParamChangedMethods(commitInfo);
 		}

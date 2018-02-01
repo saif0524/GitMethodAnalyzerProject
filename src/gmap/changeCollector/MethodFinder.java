@@ -24,19 +24,21 @@ public class MethodFinder {
 	public void getParamChangedMethods(String commitHistory) {
 		List<String> methodSignatureList = new ArrayList<>();
 		methodSignatureList = getMethodSignatureChangeLog(commitHistory);
-		for (int i = 0; i < methodSignatureList.size(); i++) {
+		for (int i = 0; i < methodSignatureList.size()-1; i++) {
 			// old and new signatures are consequent in the commit log and so 
 			//i-->old and
 			// i+1-->new
 			String oldSignature = extractMethodSignature(methodSignatureList.get(i));
-			String newSignature = extractMethodSignature(methodSignatureList.get(++i));
+//			System.out.println(methodSignatureList.get(i));
+			
+				String newSignature = extractMethodSignature(methodSignatureList.get(++i));
 
-			String bareSpaceOldSignature = removeWhiteSpace(oldSignature);
-			String bareSpaceNewSignature = removeWhiteSpace(newSignature);
+				String bareSpaceOldSignature = removeWhiteSpace(oldSignature);
+				String bareSpaceNewSignature = removeWhiteSpace(newSignature);
 
-			if (compareOldAndNewSignatures(bareSpaceOldSignature, bareSpaceNewSignature)) {
-				System.out.println("Old: " + oldSignature + "\t New: " + newSignature);
-			}
+				if (compareOldAndNewSignatures(bareSpaceOldSignature, bareSpaceNewSignature)) {
+					System.out.println("Old: " + oldSignature + "\nNew: " + newSignature);
+				}
 		}
 	}
 
@@ -44,7 +46,7 @@ public class MethodFinder {
 	 * helper for get a list of methods (in pairs) that have changes in signatures
 	 **/
 
-	private List<String> getMethodSignatureChangeLog(String commitLog) {
+	public List<String> getMethodSignatureChangeLog(String commitLog) {
 		// Used a regex from
 		// https://stackoverflow.com/questions/68633/regex-that-will-match-a-java-method-declaration;
 		String pattern = "[\\-\\+][ \\s+]*(?:(?:public|protected|private)\\s+)?"
@@ -66,17 +68,18 @@ public class MethodFinder {
 			BufferedReader reader = new BufferedReader(new StringReader(commitLog));
 			String line = "";
 			while ((line = reader.readLine()) != null) {
-				if (line.matches(pattern)) {
-					// System.out.println(line);
-					methodSignatureList.add(line);
-				}
-		
-				/*
+				
 				if (line.startsWith("+") || line.startsWith("-")) {
 					if (line.length() == 1 || line.toCharArray()[1] == '+' || line.toCharArray()[1] == '-') {
 						continue;
 					}
-				}*/
+					if (line.matches(pattern)) {
+						// System.out.println(line);
+//						System.out.println(line);
+						methodSignatureList.add(line);
+					}
+					
+				}
 
 			}
 		} catch (FileNotFoundException e) {
