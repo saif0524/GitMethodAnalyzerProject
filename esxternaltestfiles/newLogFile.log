@@ -1,0 +1,483 @@
+commit 18c61ba553862f700eca69b6229d50e5ac3fac49
+Author: saif-laptop\Saif <sumahmud33@gmaill.com>
+Date:   Tue Jan 30 19:31:48 2018 +0600
+
+    changed params of the constructor to PlainPizza
+
+diff --git a/src/decorator/main/PizzaMakerMain.java b/src/decorator/main/PizzaMakerMain.java
+index 1adcfd3..f368a0c 100644
+--- a/src/decorator/main/PizzaMakerMain.java
++++ b/src/decorator/main/PizzaMakerMain.java
+@@ -9,14 +9,14 @@ public class PizzaMakerMain {
+ 
+ 	public static void main(String[] args) {
+ 
+-		IPizza basicPizza = new TomatoSauce(new Mozzarella(new PlainPizza(), 0));
++		IPizza basicPizza = new TomatoSauce(new Mozzarella(new PlainPizza("", 0.0), 0));
+ 
+ 		System.out.println("Ingredients: " + basicPizza.getDescription());
+ 
+ 		System.out.println("Price: " + basicPizza.getCost());
+ 		
+ 		
+-		IPizza basicPizza1 = new TomatoSauce((new PlainPizza()));
++		IPizza basicPizza1 = new TomatoSauce((new PlainPizza("", 0.0)));
+ 
+ 		System.out.println("Ingredients: " + basicPizza1.getDescription());
+ 
+diff --git a/src/decorator/main/PlainPizza.java b/src/decorator/main/PlainPizza.java
+index 34ff752..6135434 100644
+--- a/src/decorator/main/PlainPizza.java
++++ b/src/decorator/main/PlainPizza.java
+@@ -9,6 +9,7 @@ public class PlainPizza implements IPizza {
+ 
+ 	String descritption;
+ 	double cost;
++	
+ 	public String getDescription() {
+ 		return "Thin Dough";
+ 	}
+@@ -17,9 +18,10 @@ public class PlainPizza implements IPizza {
+ 		return 4.00;
+ 	}
+ 	
+-	PlainPizza(){
+-		descritption = "Not Spectified";
+-		cost = 0.00;
++	PlainPizza(String description, double cost){
++		this.descritption = description;
++		this.cost = cost;
+ 	}
++	
+ 
+ }
+
+commit 372b6aa9f05a2621b6081e4dc14859c48f226748
+Author: saif-laptop\Saif <sumahmud33@gmaill.com>
+Date:   Tue Jan 30 19:29:05 2018 +0600
+
+    added a constructor to PlainPizza
+
+diff --git a/src/decorator/main/PlainPizza.java b/src/decorator/main/PlainPizza.java
+index a978867..34ff752 100644
+--- a/src/decorator/main/PlainPizza.java
++++ b/src/decorator/main/PlainPizza.java
+@@ -7,6 +7,8 @@ package decorator.main;
+ 
+ public class PlainPizza implements IPizza {
+ 
++	String descritption;
++	double cost;
+ 	public String getDescription() {
+ 		return "Thin Dough";
+ 	}
+@@ -14,5 +16,10 @@ public class PlainPizza implements IPizza {
+ 	public double getCost() {
+ 		return 4.00;
+ 	}
++	
++	PlainPizza(){
++		descritption = "Not Spectified";
++		cost = 0.00;
++	}
+ 
+ }
+
+commit 048dbf24dced827957274ced5192c6de7bfca5f2
+Author: saif-laptop\Saif <sumahmud33@gmaill.com>
+Date:   Tue Jan 30 19:26:24 2018 +0600
+
+    added a pararm to Mozzarella contstructor
+
+diff --git a/src/decorator/main/Mozzarella.java b/src/decorator/main/Mozzarella.java
+index 91e0129..db46df3 100644
+--- a/src/decorator/main/Mozzarella.java
++++ b/src/decorator/main/Mozzarella.java
+@@ -7,7 +7,7 @@ package decorator.main;
+ 
+ public class Mozzarella extends AToppingDecorator {
+ 
+-	public Mozzarella(IPizza newPizza) {
++	public Mozzarella(IPizza newPizza, int x) {
+ 		super(newPizza);
+ 
+ 		System.out.println("Adding Dough.");
+diff --git a/src/decorator/main/PizzaMakerMain.java b/src/decorator/main/PizzaMakerMain.java
+index 49d4bf4..1adcfd3 100644
+--- a/src/decorator/main/PizzaMakerMain.java
++++ b/src/decorator/main/PizzaMakerMain.java
+@@ -9,7 +9,7 @@ public class PizzaMakerMain {
+ 
+ 	public static void main(String[] args) {
+ 
+-		IPizza basicPizza = new TomatoSauce(new Mozzarella(new PlainPizza()));
++		IPizza basicPizza = new TomatoSauce(new Mozzarella(new PlainPizza(), 0));
+ 
+ 		System.out.println("Ingredients: " + basicPizza.getDescription());
+ 
+
+commit 2bfcfdc131328dec67214ab28a152e04f161cc23
+Author: saif <sumahmud33@gmail.com>
+Date:   Mon Nov 9 11:44:06 2015 +0600
+
+    I habve written the JUnit TestCases for decorator pattern for SQAT
+    assignment..
+
+diff --git a/.classpath b/.classpath
+new file mode 100644
+index 0000000..6a189c4
+--- /dev/null
++++ b/.classpath
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<classpath>
++	<classpathentry kind="src" path="src"/>
++	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
++	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
++	<classpathentry kind="output" path="bin"/>
++</classpath>
+diff --git a/.project b/.project
+new file mode 100644
+index 0000000..11df17f
+--- /dev/null
++++ b/.project
+@@ -0,0 +1,17 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<projectDescription>
++	<name>dp-assignmen-decorator-pattern</name>
++	<comment></comment>
++	<projects>
++	</projects>
++	<buildSpec>
++		<buildCommand>
++			<name>org.eclipse.jdt.core.javabuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++	</buildSpec>
++	<natures>
++		<nature>org.eclipse.jdt.core.javanature</nature>
++	</natures>
++</projectDescription>
+diff --git a/.settings/org.eclipse.jdt.core.prefs b/.settings/org.eclipse.jdt.core.prefs
+new file mode 100644
+index 0000000..838bd9d
+--- /dev/null
++++ b/.settings/org.eclipse.jdt.core.prefs
+@@ -0,0 +1,11 @@
++eclipse.preferences.version=1
++org.eclipse.jdt.core.compiler.codegen.inlineJsrBytecode=enabled
++org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.7
++org.eclipse.jdt.core.compiler.codegen.unusedLocal=preserve
++org.eclipse.jdt.core.compiler.compliance=1.7
++org.eclipse.jdt.core.compiler.debug.lineNumber=generate
++org.eclipse.jdt.core.compiler.debug.localVariable=generate
++org.eclipse.jdt.core.compiler.debug.sourceFile=generate
++org.eclipse.jdt.core.compiler.problem.assertIdentifier=error
++org.eclipse.jdt.core.compiler.problem.enumIdentifier=error
++org.eclipse.jdt.core.compiler.source=1.7
+diff --git a/bin/.gitignore b/bin/.gitignore
+new file mode 100644
+index 0000000..b5e3b45
+--- /dev/null
++++ b/bin/.gitignore
+@@ -0,0 +1 @@
++/decorator/
+diff --git a/src/decorator/main/AToppingDecorator.java b/src/decorator/main/AToppingDecorator.java
+new file mode 100644
+index 0000000..cd48dc0
+--- /dev/null
++++ b/src/decorator/main/AToppingDecorator.java
+@@ -0,0 +1,24 @@
++/*
++ * Author	: Saif Uddin Mahmud
++ * Date	 	: April 12, 2015	
++ * Reference: https://www.youtube.com/watch?v=j40kRwSm4VE
++ */
++package decorator.main;
++
++public abstract class AToppingDecorator implements IPizza {
++
++	protected IPizza tempPizza;
++
++	public AToppingDecorator(IPizza newPizza) {
++		tempPizza = newPizza;
++	}
++
++	public String getDescription() {
++		return tempPizza.getDescription();
++
++	}
++
++	public double getCost() {
++		return tempPizza.getCost();
++	}
++}
+diff --git a/src/decorator/main/IPizza.java b/src/decorator/main/IPizza.java
+new file mode 100644
+index 0000000..23d8b3a
+--- /dev/null
++++ b/src/decorator/main/IPizza.java
+@@ -0,0 +1,13 @@
++/*
++ * Author	: Saif Uddin Mahmud
++ * Date	 	: April 12, 2015	
++ * Reference: https://www.youtube.com/watch?v=j40kRwSm4VE
++ */
++package decorator.main;
++
++public interface IPizza {
++
++	String getDescription();
++
++	double getCost();
++}
+diff --git a/src/decorator/main/Mozzarella.java b/src/decorator/main/Mozzarella.java
+new file mode 100644
+index 0000000..91e0129
+--- /dev/null
++++ b/src/decorator/main/Mozzarella.java
+@@ -0,0 +1,25 @@
++/*
++ * Author	: Saif Uddin Mahmud
++ * Date	 	: April 12, 2015	
++ * Reference: https://www.youtube.com/watch?v=j40kRwSm4VE
++ */
++package decorator.main;
++
++public class Mozzarella extends AToppingDecorator {
++
++	public Mozzarella(IPizza newPizza) {
++		super(newPizza);
++
++		System.out.println("Adding Dough.");
++		System.out.println("Adding Mozzarella.");
++	}
++
++	public String getDescription() {
++		return tempPizza.getDescription() + ", Mozzarella";
++
++	}
++
++	public double getCost() {
++		return tempPizza.getCost() + .50;
++	}
++}
+\ No newline at end of file
+diff --git a/src/decorator/main/PizzaMakerMain.java b/src/decorator/main/PizzaMakerMain.java
+new file mode 100644
+index 0000000..49d4bf4
+--- /dev/null
++++ b/src/decorator/main/PizzaMakerMain.java
+@@ -0,0 +1,26 @@
++/*
++ * Author	: Saif Uddin Mahmud
++ * Date	 	: April 12, 2015	
++ * Reference: https://www.youtube.com/watch?v=j40kRwSm4VE
++ */
++package decorator.main;
++
++public class PizzaMakerMain {
++
++	public static void main(String[] args) {
++
++		IPizza basicPizza = new TomatoSauce(new Mozzarella(new PlainPizza()));
++
++		System.out.println("Ingredients: " + basicPizza.getDescription());
++
++		System.out.println("Price: " + basicPizza.getCost());
++		
++		
++		IPizza basicPizza1 = new TomatoSauce((new PlainPizza()));
++
++		System.out.println("Ingredients: " + basicPizza1.getDescription());
++
++		System.out.println("Price: " + basicPizza1.getCost());
++	}
++
++}
+diff --git a/src/decorator/main/PlainPizza.java b/src/decorator/main/PlainPizza.java
+new file mode 100644
+index 0000000..a978867
+--- /dev/null
++++ b/src/decorator/main/PlainPizza.java
+@@ -0,0 +1,18 @@
++/*
++ * Author	: Saif Uddin Mahmud
++ * Date	 	: April 12, 2015	
++ * Reference: https://www.youtube.com/watch?v=j40kRwSm4VE
++ */
++package decorator.main;
++
++public class PlainPizza implements IPizza {
++
++	public String getDescription() {
++		return "Thin Dough";
++	}
++
++	public double getCost() {
++		return 4.00;
++	}
++
++}
+diff --git a/src/decorator/main/TomatoSauce.java b/src/decorator/main/TomatoSauce.java
+new file mode 100644
+index 0000000..d1851c7
+--- /dev/null
++++ b/src/decorator/main/TomatoSauce.java
+@@ -0,0 +1,23 @@
++/*
++ * Author	: Saif Uddin Mahmud
++ * Date	 	: April 12, 2015	
++ * Reference: https://www.youtube.com/watch?v=j40kRwSm4VE
++ */
++package decorator.main;
++
++public class TomatoSauce extends AToppingDecorator {
++
++	public TomatoSauce(IPizza newPizza) {
++		super(newPizza);
++
++		System.out.println("Adding Tomato Sauce.");
++	}
++
++	public String getDescription() {
++		return tempPizza.getDescription() + ", Sauce";
++	}
++
++	public double getCost() {
++		return tempPizza.getCost() + .35;
++	}
++}
+diff --git a/src/decorator/test/MozzarellaTest.java b/src/decorator/test/MozzarellaTest.java
+new file mode 100644
+index 0000000..4a04e6c
+--- /dev/null
++++ b/src/decorator/test/MozzarellaTest.java
+@@ -0,0 +1,27 @@
++package decorator.test;
++
++import static org.junit.Assert.*;
++
++import org.junit.Test;
++
++import decorator.main.IPizza;
++import decorator.main.Mozzarella;
++import decorator.main.PlainPizza;
++
++public class MozzarellaTest {
++
++	@Test
++	public void testGetCost() {
++		IPizza mozzarellaPizza = new Mozzarella(new PlainPizza());
++		double result = mozzarellaPizza.getCost();
++		assertEquals(4.50, result, 0.00);
++	}
++	
++	@Test
++	public void testGetDesCription() {
++		IPizza mozzarellaPizza= new Mozzarella(new PlainPizza());
++		String result = mozzarellaPizza.getDescription();
++		assertEquals("Thin Dough, Mozzarella", result);
++	}
++
++}
+diff --git a/src/decorator/test/PlainPizzaTest.java b/src/decorator/test/PlainPizzaTest.java
+new file mode 100644
+index 0000000..7b982d7
+--- /dev/null
++++ b/src/decorator/test/PlainPizzaTest.java
+@@ -0,0 +1,26 @@
++package decorator.test;
++
++import static org.junit.Assert.*;
++
++import org.junit.Test;
++
++import decorator.main.IPizza;
++import decorator.main.PlainPizza;
++
++public class PlainPizzaTest {
++
++	@Test
++	public void testGetCost() {
++		IPizza tomatoSaucePizza = new PlainPizza();
++		double result = tomatoSaucePizza.getCost();
++		assertEquals(4.00, result, 0.00);
++	}
++	
++	@Test
++	public void testGetDesCription() {
++		IPizza tomatoSaucePizza = new PlainPizza();
++		String result = tomatoSaucePizza.getDescription();
++		assertEquals("Thin Dough", result);
++	}
++
++}
+diff --git a/src/decorator/test/SauceWithMozzarellaTest.java b/src/decorator/test/SauceWithMozzarellaTest.java
+new file mode 100644
+index 0000000..2d8de39
+--- /dev/null
++++ b/src/decorator/test/SauceWithMozzarellaTest.java
+@@ -0,0 +1,28 @@
++package decorator.test;
++
++import static org.junit.Assert.*;
++
++import org.junit.Test;
++
++import decorator.main.IPizza;
++import decorator.main.Mozzarella;
++import decorator.main.PlainPizza;
++import decorator.main.TomatoSauce;
++
++public class SauceWithMozzarellaTest {
++
++	@Test
++	public void testGetCost() {
++		IPizza tomatoSauceAndMozzarellaPizza = new TomatoSauce(new Mozzarella(new PlainPizza()));
++		double result = tomatoSauceAndMozzarellaPizza.getCost();
++		assertEquals(4.85, result, 0.00);
++	}
++	
++	@Test
++	public void testGetDesCription() {
++		IPizza tomatoSauceAndMozzarellaPizza = new TomatoSauce(new Mozzarella(new PlainPizza()));
++		String result = tomatoSauceAndMozzarellaPizza.getDescription();
++		assertEquals("Thin Dough, Mozzarella, Sauce", result);
++	}
++
++}
+diff --git a/src/decorator/test/TomatoSauceTest.java b/src/decorator/test/TomatoSauceTest.java
+new file mode 100644
+index 0000000..0d6d0dc
+--- /dev/null
++++ b/src/decorator/test/TomatoSauceTest.java
+@@ -0,0 +1,27 @@
++package decorator.test;
++
++import static org.junit.Assert.*;
++
++import org.junit.Test;
++
++import decorator.main.IPizza;
++import decorator.main.PlainPizza;
++import decorator.main.TomatoSauce;
++
++public class TomatoSauceTest {
++
++	@Test
++	public void testGetCost() {
++		IPizza tomatoSaucePizza = new TomatoSauce(new PlainPizza());
++		double result = tomatoSaucePizza.getCost();
++		assertEquals(4.35, result, 0.002);
++	}
++	
++	@Test
++	public void testGetDesCription() {
++		IPizza tomatoSaucePizza = new TomatoSauce(new PlainPizza());
++		String result = tomatoSaucePizza.getDescription();
++		assertEquals("Thin Dough, Sauce", result);
++	}
++
++}
