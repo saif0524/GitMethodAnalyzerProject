@@ -1,3 +1,10 @@
+/*
+ * Author: Rayhanur Rahman, Saif Uddin Mahmud
+ * Updated by: Saif Uddin Mahmud
+ * Last updated: February 2,2018
+ * */
+
+
 package gmap.changeCollector;
 
 import java.io.BufferedReader;
@@ -11,7 +18,7 @@ public class DiffAnalyzer {
 
 	private String shaLog;
 	private String gitPath;	
-	private String commitInfo;
+	private String commitInfo;	
 	
 	public List<String> getShalist(String shaLog) {
 	
@@ -56,39 +63,13 @@ public class DiffAnalyzer {
 		return getCommitInfo;
 	}
 	
-	public String getShaLog() {
-    	return shaLog;
-    }
-    
-    
-    public void setShaLog(String shaLog) {
-    	this.shaLog = shaLog;
-    }
-    
-    
-    public String getGitPath() {
-    	return gitPath;
-    }
-    
-    
-    public void setGitPath(String gitPath) {
-    	this.gitPath = gitPath;
-    }
-    
-    
-    public String getCommitInfo() {
-    	return commitInfo;
-    }
-    
-    
-    public void setCommitInfo(String commitInfo) {
-    	this.commitInfo = commitInfo;
-    }
 
     public static void main(String[] args) {
 //    	git --git-dir C:/Users/saif-pc/Documents/dp-assignment-decorator-pattern/.git show 18c61ba
 //    	git --git-dir /foo/bar/.git log
-//		 String s = executeCommand("git log --oneline");
+//		String s = executeCommand("git log --oneline");
+    	
+    	long start = System.currentTimeMillis();;
     	
     	ConsoleCommunicator communicator = new ConsoleCommunicator();
 		String gitPath = "C:\\Users\\saif-pc\\Documents\\repo\\argouml\\.git";
@@ -103,15 +84,16 @@ public class DiffAnalyzer {
 		List<String> shaList = new ArrayList<>();
 		shaList = diffAn.getShalist(shaLog);
 		
-		List<String> chFullList = diffAn.getCommitHistoryFullList(gitPath, shaList);
+		List<String> commitHistoryFullList = diffAn.getCommitHistoryFullList(gitPath, shaList);
 		
 		MethodFinder mf = new MethodFinder();
-		for(String commitInfo: chFullList) {
+		
+		for(String commitInfo: commitHistoryFullList) {
 			mf.getParamChangedMethods(commitInfo);
 		}
+
+		long end = System.currentTimeMillis();;
+		
+		System.out.println("Execution time:" + (end - start) + " ms");
     }
-    
-    
-
-
 }

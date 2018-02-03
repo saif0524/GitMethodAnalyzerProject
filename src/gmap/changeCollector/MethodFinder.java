@@ -1,8 +1,13 @@
+/*
+ * Author: Saif Uddin Mahmud
+ * Last Updated: February 2, 2018
+ * 
+ * */
+
 package gmap.changeCollector;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -26,22 +31,20 @@ public class MethodFinder {
 		methodSignatureList = getMethodSignatureChangeLog(commitHistory);
 		for (int i = 0; i < methodSignatureList.size()-1; i++) {
 			// old and new signatures are consequent in the commit log and so 
-			//i-->old and
+			// i-->old and
 			// i+1-->new
 			String oldSignature = extractMethodSignature(methodSignatureList.get(i));
-//			System.out.println(methodSignatureList.get(i));
-			
-				String newSignature = extractMethodSignature(methodSignatureList.get(++i));
+			String newSignature = extractMethodSignature(methodSignatureList.get(++i));
 
-				String bareSpaceOldSignature = removeWhiteSpace(oldSignature);
-				String bareSpaceNewSignature = removeWhiteSpace(newSignature);
+			String bareSpaceOldSignature = removeWhiteSpace(oldSignature);
+			String bareSpaceNewSignature = removeWhiteSpace(newSignature);
 
-				if (compareOldAndNewSignatures(bareSpaceOldSignature, bareSpaceNewSignature)) {
-					System.out.println("Old: " + oldSignature + "\nNew: " + newSignature);
-				}
+			if (compareOldAndNewSignatures(bareSpaceOldSignature, bareSpaceNewSignature)) {
+				System.out.println("Old: " + oldSignature + "\nNew: " + newSignature);
+			}
 		}
 	}
-
+	
 	/**
 	 * helper for get a list of methods (in pairs) that have changes in signatures
 	 **/
@@ -62,25 +65,30 @@ public class MethodFinder {
 				+ "(\\w+)\\b(?![>\\[])\\s*){0,})?\\s*\\)(?:\\s*throws [\\w.]+(\\s*,\\s*[\\w.]+))?\\s*(?:\\{|;)[ \\t]*$";
 
 		List<String> methodSignatureList = new ArrayList<String>();
-
+		
 		try {
-			
 			BufferedReader reader = new BufferedReader(new StringReader(commitLog));
-			String line = "";
-			while ((line = reader.readLine()) != null) {
-				
-				if (line.startsWith("+") || line.startsWith("-")) {
-					if (line.length() == 1 || line.toCharArray()[1] == '+' || line.toCharArray()[1] == '-') {
-						continue;
-					}
-					if (line.matches(pattern)) {
-						// System.out.println(line);
-//						System.out.println(line);
-						methodSignatureList.add(line);
-					}
-					
-				}
+			String line = "";	
+			line = reader.readLine();
+			
+			System.out.println(line);
+			
+			while (line != null) {
+				if (line.contains("diff --git") && line.contains(".java")) {
+					while ((line = reader.readLine()) != null) {
+						if (line.contains("diff --git")) {
+							break;
+						}
+						if (line.startsWith("+") || line.startsWith("-")) {
+							if (line.matches(pattern)) {
+								methodSignatureList.add(line);
+							}
+						}
 
+					}
+					continue;
+				}
+				line = reader.readLine();
 			}
 		} catch (FileNotFoundException e) {
 
@@ -88,8 +96,9 @@ public class MethodFinder {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		
 		return methodSignatureList;
+
 	}// end of getMethodSignatureChangeLog
 
 	/** helper method for extracting Method Signatures from a given line **/
@@ -123,8 +132,8 @@ public class MethodFinder {
 	/*** Main method for testing 
 	 * @throws IOException ***/
 	public static void main(String args[]) throws IOException {
-		MethodFinder mf = new MethodFinder();
-		
+/*		MethodFinder mf = new MethodFinder();
+		/*		
 		StringBuilder sBuilder = new StringBuilder();
 		
 		BufferedReader reader = new BufferedReader(new FileReader("./externaltestfiles/newLogFile.log"));
@@ -134,8 +143,9 @@ public class MethodFinder {
 		}
 		
 		
-//		mf.setLogFileName(); // input your log file
+		mf.setLogFileName(); // input your log file
 		mf.getParamChangedMethods(sBuilder.toString());
+*/
 	}
 
 }
